@@ -1,0 +1,982 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+  branch: master
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Twitter Image
+            name: twitter:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: projects
+    label: Projects
+    folder: cms/projects
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Project Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: description
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_header-image
+        label: header image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_image-1
+        label: image 1
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_image-2
+        label: image 2
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_image-3
+        label: image 3
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_way-of-work
+        label: way of work
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_image-4
+        label: image 4
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_image-5
+        label: image 5
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_service
+        label: Service
+        widget: string
+        required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: projects
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[projects].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: Home, key: 2268ff'
+            label: Text
+            name: 2268ff
+            widget: string
+          - hint: 'Original text: About, key: 3c2336d'
+            label: Text
+            name: 3c2336d
+            widget: string
+          - hint: 'Original text: Work, key: 293b31'
+            label: Text
+            name: 293b31
+            widget: string
+          - hint: 'Original text: Contact, key: -64104400'
+            label: Text
+            name: '-64104400'
+            widget: string
+          - hint: 'Original text: Say hi!, key: -2d1b7a95'
+            label: Text
+            name: '-2d1b7a95'
+            widget: string
+          - hint: 'Original text: Hi, we are , key: -3055e197'
+            label: Text
+            name: '-3055e197'
+            widget: string
+          - hint: 'Original text: Dasper., key: -46c92cd9'
+            label: Text
+            name: '-46c92cd9'
+            widget: string
+          - hint: >-
+              Original text:  We combine exceptional design and digital
+              experience., key: -6ad8e236
+            label: Text
+            name: '-6ad8e236'
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: 'Original text: What we do, key: -2d422d1f'
+            label: Text
+            name: '-2d422d1f'
+            widget: string
+          - hint: 'Original text: We create , key: -4296a88e'
+            label: Text
+            name: '-4296a88e'
+            widget: string
+          - hint: 'Original text: branding and websites, key: 6105b066'
+            label: Text
+            name: 6105b066
+            widget: string
+          - hint: >-
+              Original text:  by understanding your goals whether you are, key:
+              ace9d00
+            label: Text
+            name: ace9d00
+            widget: string
+          - hint: >-
+              Original text: Whether you're just stepping into the market,
+              aiming to establish your enterprise firmly, or already boast a
+              sustainable product or service, we're here to elevate your
+              journey. At Dasper, we specialize in crafting bespoke branding and
+              websites that align perfectly with your goals., key: 3a30a69e
+            label: Text
+            name: 3a30a69e
+            widget: text
+          - hint: >-
+              Original text: From conceptualization to execution, we immerse
+              ourselves in understanding your unique vision, ensuring that every
+              element of your brand reflects your essence. Whether you're
+              seeking to make a grand entrance, enhance your existing presence,
+              or revolutionize your entire brand identity, we've got you
+              covered., key: -482703ac
+            label: Text
+            name: '-482703ac'
+            widget: text
+          - hint: 'Original text: Who we are, key: -47239b3c'
+            label: Text
+            name: '-47239b3c'
+            widget: string
+          - hint: 'Original text: We''re a team of , key: 15c84779'
+            label: Text
+            name: 15c84779
+            widget: string
+          - hint: 'Original text: creative professionals, key: 13752c7b'
+            label: Text
+            name: 13752c7b
+            widget: string
+          - hint: >-
+              Original text:  creating projects we're passionate about., key:
+              -5997582d
+            label: Text
+            name: '-5997582d'
+            widget: string
+          - hint: >-
+              Original text: We at Dasper, we're more than just a team of
+              creative professionals – we're a collective of passionate
+              individuals driven by a shared purpose: to bring innovative
+              projects to life. From captivating branding campaigns to immersive
+              digital experiences, each project we undertake is infused with our
+              unique blend of passion and professionalism., key: -6606df33
+            label: Text
+            name: '-6606df33'
+            widget: text
+          - hint: >-
+              Original text: From brainstorming sessions fueled by endless cups
+              of coffee to late-night design marathons, we pour our hearts and
+              souls into every project we take on. Whether it's a sleek website,
+              a captivating brand identity, or a groundbreaking digital
+              campaign, we approach each endeavor with boundless enthusiasm and
+              unwavering dedication., key: 1748a301
+            label: Text
+            name: 1748a301
+            widget: text
+          - hint: >-
+              Original text: But it's not just about the finished product – it's
+              about the journey. We thrive on collaboration, working closely
+              with our clients to understand their vision and goals, and then
+              weaving our creative magic to exceed their expectations., key:
+              -6d72db7d
+            label: Text
+            name: '-6d72db7d'
+            widget: text
+          - hint: >-
+              Original text: Here are some other reasons to trust us, key:
+              54bab99a
+            label: Text
+            name: 54bab99a
+            widget: string
+          - hint: >-
+              Original text: Dasper’s design service is truly top-notch. Their
+              creativity, attention to detail, and commitment to quality
+              exceeded my expectations., key: -657dc0fc
+            label: Text
+            name: '-657dc0fc'
+            widget: text
+          - hint: 'Original text: Peter Paul Arasu, key: -8a69272'
+            label: Text
+            name: '-8a69272'
+            widget: string
+          - hint: 'Original text: Co-founder, Emilda Solutions, key: 2047bee4'
+            label: Text
+            name: 2047bee4
+            widget: string
+          - hint: >-
+              Original text: Their design expertise has elevated our brand and
+              we wholeheartedly recommend their services. Their commitment makes
+              me wonder., key: -6907e51d
+            label: Text
+            name: '-6907e51d'
+            widget: text
+          - hint: 'Original text: Kalai Selvi, key: 5cf9e2b'
+            label: Text
+            name: 5cf9e2b
+            widget: string
+          - hint: 'Original text: Founder, Image Beauty Academy, key: 72450690'
+            label: Text
+            name: '72450690'
+            widget: string
+          - hint: 'Original text: Want to connect with us?, key: 145bee92'
+            label: Text
+            name: 145bee92
+            widget: string
+          - hint: 'Original text: drop a message, key: -28c2a0a9'
+            label: Text
+            name: '-28c2a0a9'
+            widget: string
+          - hint: 'Original text: drop a letter in our , key: 32888d25'
+            label: Text
+            name: 32888d25
+            widget: string
+          - hint: 'Original text: mail-box, key: -aebb4b'
+            label: Text
+            name: '-aebb4b'
+            widget: string
+          - hint: 'Original text: or jump into a conversation , key: 57695d73'
+            label: Text
+            name: 57695d73
+            widget: string
+          - hint: 'Original text: here!, key: 5e92e31'
+            label: Text
+            name: 5e92e31
+            widget: string
+          - hint: 'Original text: Dasper Tech Solutions Pvt Ltd., key: -65a26465'
+            label: Text
+            name: '-65a26465'
+            widget: string
+          - hint: 'Original text: Quick Links, key: 15495b86'
+            label: Text
+            name: 15495b86
+            widget: string
+          - hint: 'Original text: Works, key: 4fe2b62'
+            label: Text
+            name: 4fe2b62
+            widget: string
+          - hint: 'Original text: Services, key: 560f747e'
+            label: Text
+            name: 560f747e
+            widget: string
+          - hint: 'Original text: Branding, key: 2572f1b'
+            label: Text
+            name: 2572f1b
+            widget: string
+          - hint: 'Original text: Graphic Design, key: 39cb9a36'
+            label: Text
+            name: 39cb9a36
+            widget: string
+          - hint: 'Original text: UI+UX, key: 4cfa8fa'
+            label: Text
+            name: 4cfa8fa
+            widget: string
+          - hint: 'Original text: Web Development, key: 4072162f'
+            label: Text
+            name: 4072162f
+            widget: string
+          - hint: 'Original text: Socials, key: -164c917a'
+            label: Text
+            name: '-164c917a'
+            widget: string
+          - hint: 'Original text: Mail, key: 2479d7'
+            label: Text
+            name: 2479d7
+            widget: string
+          - hint: 'Original text: Instagram, key: 792b2792'
+            label: Text
+            name: 792b2792
+            widget: string
+          - hint: 'Original text: Behance, key: 559c0b34'
+            label: Text
+            name: 559c0b34
+            widget: string
+          - hint: 'Original text: Find Us, key: 305d1e65'
+            label: Text
+            name: 305d1e65
+            widget: string
+          - hint: 'Original text: Bangalore, India, key: 331b73c4'
+            label: Text
+            name: 331b73c4
+            widget: string
+          - hint: 'Original text: Thrissur, India, key: -6c053025'
+            label: Text
+            name: '-6c053025'
+            widget: string
+          - hint: 'Original text: New Jersey, America, key: -7b2efd36'
+            label: Text
+            name: '-7b2efd36'
+            widget: string
+          - hint: 'Original text: Description, key: -360d424'
+            label: Text
+            name: '-360d424'
+            widget: string
+          - hint: 'Original text: Underlying work, key: -6f61c62c'
+            label: Text
+            name: '-6f61c62c'
+            widget: string
+          - hint: 'Original text: We believe our , key: 12023212'
+            label: Text
+            name: '12023212'
+            widget: string
+          - hint: 'Original text: work, key: 37c711'
+            label: Text
+            name: 37c711
+            widget: string
+          - hint: 'Original text:  defines who we truly are, key: 62c1e930'
+            label: Text
+            name: 62c1e930
+            widget: string
+          - hint: >-
+              Original text: We are a creative digital agency dedicated to
+              sparking innovation, igniting brands and driving exceptional
+              results., key: -1a3fa846
+            label: Text
+            name: '-1a3fa846'
+            widget: text
+          - hint: >-
+              Original text: What sets us apart is our unwavering dedication to
+              delivering results. We take a data-driven approach to everything
+              we do, leveraging insights and analytics to inform our strategies
+              and optimize our efforts. When you choose Dasper, you choose a
+              partner dedicated to your success. We invest in understanding your
+              business, your target audience, and your unique challenges. We
+              believe in building long-term relationships based on trust,
+              integrity, and shared success. Your success is our success, and we
+              are committed to being there with you every step of the way., key:
+              -486b9a6b
+            label: Text
+            name: '-486b9a6b'
+            widget: text
+          - hint: 'Original text: Here’s all that we offer, key: -f183e72'
+            label: Text
+            name: '-f183e72'
+            widget: string
+          - hint: 'Original text: Positioning elaboration, key: 316a0743'
+            label: Text
+            name: 316a0743
+            widget: string
+          - hint: 'Original text: Brand message, key: 6ce5a04e'
+            label: Text
+            name: 6ce5a04e
+            widget: string
+          - hint: 'Original text: Logo design, key: 1f1965b3'
+            label: Text
+            name: 1f1965b3
+            widget: string
+          - hint: 'Original text: Concept, key: -6417edb8'
+            label: Text
+            name: '-6417edb8'
+            widget: string
+          - hint: 'Original text: UI+UX audit, key: -168fcacb'
+            label: Text
+            name: '-168fcacb'
+            widget: string
+          - hint: 'Original text: Discovery & Ideation, key: -c9e1a0b'
+            label: Text
+            name: '-c9e1a0b'
+            widget: string
+          - hint: 'Original text: Design Concept, key: 36379e06'
+            label: Text
+            name: '36379e06'
+            widget: string
+          - hint: 'Original text: Scale & Iterate, key: 409406ea'
+            label: Text
+            name: 409406ea
+            widget: string
+          - hint: 'Original text: Print collaterals, key: 51032009'
+            label: Text
+            name: '51032009'
+            widget: string
+          - hint: 'Original text: Marketing materials, key: 1310fe92'
+            label: Text
+            name: 1310fe92
+            widget: string
+          - hint: 'Original text: Digital media, key: -49f25044'
+            label: Text
+            name: '-49f25044'
+            widget: string
+          - hint: 'Original text: Interaction design, key: 31bb7fac'
+            label: Text
+            name: 31bb7fac
+            widget: string
+          - hint: 'Original text: Development, key: 5603451b'
+            label: Text
+            name: 5603451b
+            widget: string
+          - hint: 'Original text: Web style search, key: -49f8979d'
+            label: Text
+            name: '-49f8979d'
+            widget: string
+          - hint: 'Original text: Site development, key: 5848ba02'
+            label: Text
+            name: 5848ba02
+            widget: string
+          - hint: 'Original text: Web maintenance, key: -2a23bd9'
+            label: Text
+            name: '-2a23bd9'
+            widget: string
+          - hint: 'Original text: Search Engine Optimisation, key: -7c75c426'
+            label: Text
+            name: '-7c75c426'
+            widget: string
+          - hint: 'Original text: Other Services, key: 4c8793ae'
+            label: Text
+            name: 4c8793ae
+            widget: string
+          - hint: 'Original text: Web hosting, key: -578a3b2'
+            label: Text
+            name: '-578a3b2'
+            widget: string
+          - hint: 'Original text: Startup subscriptions, key: 2841f273'
+            label: Text
+            name: 2841f273
+            widget: string
+          - hint: 'Original text: Digital marketing, key: -231da202'
+            label: Text
+            name: '-231da202'
+            widget: string
+          - hint: 'Original text: How we work, key: -686becd'
+            label: Text
+            name: '-686becd'
+            widget: string
+          - hint: >-
+              Original text: We work fast without sacrificing quality. We’re
+              flexible with our timing. We’re with you during every step of the
+              way. With us, you know what you’re getting right from the start.,
+              key: 15f38f7
+            label: Text
+            name: 15f38f7
+            widget: text
+          - hint: 'Original text: Insights, key: 24589bfb'
+            label: Text
+            name: 24589bfb
+            widget: string
+          - hint: >-
+              Original text: We kick off each project by delving into what
+              motivates both you and your customers towards your brand. We seize
+              every opportunity to deepen our understanding of our clients and
+              their businesses, whether it's during the initial call, project
+              kickoff, or even routine emails., key: -3cf99e18
+            label: Text
+            name: '-3cf99e18'
+            widget: text
+          - hint: 'Original text: Design, key: 79ceadde'
+            label: Text
+            name: 79ceadde
+            widget: string
+          - hint: >-
+              Original text: Creativity is the cornerstone of our design
+              process—it's where the majority of our design work takes place.
+              Not only is it the preferred tool of our teams, but it also
+              provides our clients with a clear and convenient designs. , key:
+              -6712ea8f
+            label: Text
+            name: '-6712ea8f'
+            widget: text
+          - hint: 'Original text: Finalize, key: -24c0bfc2'
+            label: Text
+            name: '-24c0bfc2'
+            widget: string
+          - hint: >-
+              Original text: As the design phase of the project approaches its
+              conclusion, we arrange a final call to wrap things up. During this
+              call, we gather all deliverables and transfer them to your team.
+              Our priority is ensuring that we've met our mutual goals and
+              delivered work that meets your satisfaction., key: -632fedfe
+            label: Text
+            name: '-632fedfe'
+            widget: text
+          - hint: >-
+              Original text: And more importantly - We stay in touch, key:
+              -91e1ce1
+            label: Text
+            name: '-91e1ce1'
+            widget: string
+          - hint: >-
+              Original text: Upon project completion, we don't vanish into thin
+              air. Instead, we remain steadfast in our commitment to further
+              collaboration. Whether it entails devising additional creative
+              solutions, expanding your website's capabilities with fresh pages,
+              or delving into your latest endeavors, we're here to support you
+              every step of the way., key: e82d843
+            label: Text
+            name: e82d843
+            widget: text
+          - hint: 'Original text: We serve clients with , key: -201c2f81'
+            label: Text
+            name: '-201c2f81'
+            widget: string
+          - hint: 'Original text: ground breaking, key: -60d50704'
+            label: Text
+            name: '-60d50704'
+            widget: string
+          - hint: 'Original text:  solutions, key: 4dea85fa'
+            label: Text
+            name: 4dea85fa
+            widget: string
+          - hint: >-
+              Original text: Have a project in mind or want to learn more about
+              us?, key: -4c5da5e0
+            label: Text
+            name: '-4c5da5e0'
+            widget: string
+          - hint: 'Original text: Reach out to us!, key: 6ccd9c1d'
+            label: Text
+            name: 6ccd9c1d
+            widget: string
+          - hint: 'Original text: India, key: 4383917'
+            label: Text
+            name: '4383917'
+            widget: string
+          - hint: 'Original text: +91 95004 90553, key: -6b3ed89'
+            label: Text
+            name: '-6b3ed89'
+            widget: string
+          - hint: 'Original text: America, key: 2e39f5ee'
+            label: Text
+            name: 2e39f5ee
+            widget: string
+          - hint: 'Original text: +1 71880 82287, key: -66183ecd'
+            label: Text
+            name: '-66183ecd'
+            widget: string
+          - hint: 'Original text: Send us a mail!, key: -229adf3f'
+            label: Text
+            name: '-229adf3f'
+            widget: string
+          - hint: 'Original text: daspertech@gmail.com, key: -5b1a7d72'
+            label: Text
+            name: '-5b1a7d72'
+            widget: string
+          - hint: 'Original text: Get a free quote, key: 263e8991'
+            label: Text
+            name: '263e8991'
+            widget: string
+          - hint: 'Original text: +91 63858 75801, key: -30ec8124'
+            label: Text
+            name: '-30ec8124'
+            widget: string
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: /about/, key: 61642f31'
+            label: Link
+            name: 61642f31
+            widget: string
+          - hint: 'Original link: /work/, key: 56f4e06f'
+            label: Link
+            name: 56f4e06f
+            widget: string
+          - hint: 'Original link: /contact/, key: 16bdc13e'
+            label: Link
+            name: 16bdc13e
+            widget: string
+          - hint: 'Original link: http://wa.link/621rop, key: 6c19f5e1'
+            label: Link
+            name: 6c19f5e1
+            widget: string
+          - hint: >-
+              Original link:
+              mailto:daspertech@gmail.com?subject=You've%20got%20mail, key:
+              -680a5ce0
+            label: Link
+            name: '-680a5ce0'
+            widget: string
+          - hint: 'Original link: http://wa.link/ujw2y3, key: -2530b413'
+            label: Link
+            name: '-2530b413'
+            widget: string
+          - hint: >-
+              Original link:
+              https://www.instagram.com/daspertech?igsh=MzRlODBiNWFlZA==, key:
+              -7ba083ef
+            label: Link
+            name: '-7ba083ef'
+            widget: string
+          - hint: >-
+              Original link: https://www.behance.net/dasper/projects, key:
+              22fc4130
+            label: Link
+            name: 22fc4130
+            widget: string
+          - hint: 'Original link: tel:+916385875801, key: 7673201'
+            label: Link
+            name: '7673201'
+            widget: string
+          - hint: 'Original link: tel:+918129247101, key: 215c8a41'
+            label: Link
+            name: 215c8a41
+            widget: string
+          - hint: 'Original link: tel:+17188082287, key: 451b8e06'
+            label: Link
+            name: 451b8e06
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: 2abd75ba
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i6a7c0ac0
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5e91ec87
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i26e928c9
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i25f9fd24
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6c22632c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+publish_mode: editorial_workflow
